@@ -1,130 +1,121 @@
-# © BugHunterCodeLabs ™
-# © bughunter0
-# © Nuhman Pk
-# 2021 - 2024
-# Copyright - https://en.m.wikipedia.org/wiki/Fair_use
-
-# /usr/bin/nuhmanpk/bughunter0 
+# Web Scraper Bot - Pyrogram Version
+# 🔥 By FAST Developers 🔥
 
 import os
 from pyrogram import Client, filters
+from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from dotenv import load_dotenv
-import os
-from pyrogram.types import Message
+
 from scraper import (
-    all_audio_scraping,
-    all_images_scraping,
-    all_links_scraping,
-    all_paragraph_scraping,
-    all_pdf_scraping,
-    all_video_scraping,
-    extract_cookies,
-    extract_local_storage,
-    html_data_scraping,
-    raw_data_scraping,
-    extract_metadata,
-    capture_screenshot,
-    record_screen
+    all_audio_scraping, all_images_scraping, all_links_scraping,
+    all_paragraph_scraping, all_pdf_scraping, all_video_scraping,
+    extract_cookies, extract_local_storage, html_data_scraping,
+    raw_data_scraping, extract_metadata, capture_screenshot, record_screen
 )
 from crawler import crawl_web
-from utils import OPTIONS, START_BUTTON, START_TEXT
+from utils import OPTIONS, START_BUTTON, START_TEXT, is_verified
 
+# Load .env variables
 load_dotenv()
-
 bot_token = os.getenv("BOT_TOKEN")
 api_id = os.getenv("API_ID")
 api_hash = os.getenv("API_HASH")
+CHANNEL_USERNAME = "@FAST_Developers_Official"  # example: @FAST_Developers_Official
+CRAWL_LOG_CHANNEL = os.getenv("CRAWL_LOG_CHANNEL")
 
-CRAWL_LOG_CHANNEL = os.getenv('CRAWL_LOG_CHANNEL')
+if not all([bot_token, api_id, api_hash, CHANNEL_USERNAME]):
+    raise ValueError("Please set BOT_TOKEN, API_ID, API_HASH, and CHANNEL_USERNAME in your .env")
 
-if bot_token is None or api_id is None or api_hash is None:
-    raise ValueError(
-        "Please set the BOT_TOKEN, API_ID, and API_HASH environment variables."
-    )
+# Pyrogram client
+app = Client("WebScrapperBot", bot_token=bot_token, api_id=int(api_id), api_hash=api_hash)
 
-app = Client(
-    "WebScrapperBot", bot_token=bot_token, api_id=int(api_id), api_hash=api_hash
-)
+# /start command
+@app.on_message(filters.command("start") & filters.private)
+async def start(client, message: Message):
+    markup = InlineKeyboardMarkup([
+        [InlineKeyboardButton("🔗 Join Channel", url=f"https://t.me/{CHANNEL_USERNAME.strip('@')}")],
+        [InlineKeyboardButton("✅ Verify", callback_data="verify")]
+    ])
+    try:
+        await message.delete()
+    except:
+        pass
+    await message.reply("Hey 👋, Must Join given channel for Using this Bot.", reply_markup=markup)
 
-
-@app.on_message(filters.command(["start"]))
-async def start(_, message: Message):
-    # Edit Your Start string here
-    text = START_TEXT
-    await message.reply_text(text=text, disable_web_page_preview=True, quote=True)
-
-
+# Handle verification & all scraping button clicks
 @app.on_callback_query()
-async def cb_data(bot:Client, update):
-    if update.data == "cbrdata":
-        await raw_data_scraping(update)
-    elif update.data == "cbhtmldata":
-        await html_data_scraping(update)
-    elif update.data == "cballlinks":
-        await all_links_scraping(update)
-    elif update.data == "cballparagraphs":
-        await all_paragraph_scraping(update)
-    elif update.data == "cballimages":
-        await all_images_scraping(bot,update)
-    elif update.data == "cballaudio":
-        await all_audio_scraping(bot,update)
-    elif update.data == "cballvideo":
-        await all_video_scraping(bot,update)
-    elif update.data == "cballpdf":
-        await all_pdf_scraping(update)
-    elif update.data == "cbmetadata":
-        await extract_metadata(update)
-    elif update.data == "cbcookies":
-        await extract_cookies(update)
-    elif update.data == "cblocalstorage":
-        await extract_local_storage(update)
-    elif update.data == "cbscreenshot":
-        await capture_screenshot(update)
-    elif update.data == "cbscreenrecord":
-        await record_screen(update)
-    elif update.data == "cdstoptrasmission":
-        bot.stop_transmission()
-    elif update.data == 'cbcrawl':
-        if CRAWL_LOG_CHANNEL:
-            await crawl_web(bot,update)
-        else:
-            await update.message.reply('You must provide a Log Channel ID')
+async def callback_handler(client, query: CallbackQuery):
+    data = query.data
+    user_id = query.from_user.id
 
+    if data == "verify":
+        try:
+            await query.message.delete()
+        except:
+            pass
+
+        if is_verified(user_id):
+            await query.answer("✅ Verified!")
+            await client.send_message(
+                user_id,
+                "👋 Welcome to the Web Scraper Bot!\n\n"
+                "Send any link to begin scraping content.\n\n"
+                "🔥 *Powered by FAST Developers* 🔥",
+                parse_mode="markdown"
+            )
+        else:
+            await query.answer("❌ Please join the channel first!")
+
+    elif data == "cbrdata":
+        await raw_data_scraping(query)
+    elif data == "cbhtmldata":
+        await html_data_scraping(query)
+    elif data == "cballlinks":
+        await all_links_scraping(query)
+    elif data == "cballparagraphs":
+        await all_paragraph_scraping(query)
+    elif data == "cballimages":
+        await all_images_scraping(client, query)
+    elif data == "cballaudio":
+        await all_audio_scraping(client, query)
+    elif data == "cballvideo":
+        await all_video_scraping(client, query)
+    elif data == "cballpdf":
+        await all_pdf_scraping(query)
+    elif data == "cbmetadata":
+        await extract_metadata(query)
+    elif data == "cbcookies":
+        await extract_cookies(query)
+    elif data == "cblocalstorage":
+        await extract_local_storage(query)
+    elif data == "cbscreenshot":
+        await capture_screenshot(query)
+    elif data == "cbscreenrecord":
+        await record_screen(query)
+    elif data == "cdstoptrasmission":
+        await query.message.reply("🛑 Transmission Stopped.")
+    elif data == "cbcrawl":
+        if CRAWL_LOG_CHANNEL:
+            await crawl_web(client, query)
+        else:
+            await query.message.reply("❌ Log Channel not set!")
     else:
-        await update.message.edit_text(
-            text=START_TEXT, disable_web_page_preview=True, reply_markup=START_BUTTON
+        await query.message.edit_text(
+            text=START_TEXT,
+            disable_web_page_preview=True,
+            reply_markup=START_BUTTON
         )
 
-
-@app.on_message(
-    (filters.regex("https") | filters.regex("http") | filters.regex("www"))
-    & filters.private
-)
-async def scrapping(bot, message):
-    await send_message_with_options(message)
-
-
-async def send_message_with_options(message):
-    reply_markup = OPTIONS
+# Handle links from private chats
+@app.on_message((filters.regex("http") | filters.regex("www")) & filters.private)
+async def scrape_handler(client, message: Message):
     await message.reply_text("Choose an Option")
     await message.reply_text(
-        message.text, reply_markup=reply_markup, disable_web_page_preview=True
+        message.text,
+        reply_markup=OPTIONS,
+        disable_web_page_preview=True
     )
 
-
-# Use soup.find_all('tag_name') to Extract Specific Tag Details
-"""
-soup.title
-# <title>This is Title</title>
-
-soup.title.name
-# u'title'
-
-soup.title.string
-# u'This is a string'
-
-soup.title.parent.name
-# u'head'
-"""
-
-app.run(print("Bot Running...."))
+# Run the bot
+print("✅ Web Scraper Bot Running...")
+app.run()
