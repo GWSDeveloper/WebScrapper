@@ -41,7 +41,7 @@ async def raw_data_scraping(query):
         file_write.close()
         await message.reply_document(
             f"RawData-{message.chat.username}.txt",
-            caption="©@BugHunterBots",
+            caption="©@FAST_Developers_Official",
             quote=True,
         )
         await asyncio.sleep(1)
@@ -71,7 +71,7 @@ async def html_data_scraping(query):
         file_write.close()
         await message.reply_document(
             f"HtmlData-{message.chat.username}.txt",
-            caption="©@BugHunterBots",
+            caption="©@FAST_Developers_Official",
             quote=True,
         )
         await asyncio.sleep(1)
@@ -100,7 +100,7 @@ async def all_links_scraping(query):
             file_write.write(f"{links}\n\n")
         file_write.close()
         await message.reply_document(
-            f"AllLinks-{message.chat.username}.txt", caption="©@BugHunterBots"
+            f"AllLinks-{message.chat.username}.txt", caption="©@FAST_Developers_Official"
         )
         await asyncio.sleep(1)
         os.remove(f"AllLinks-{message.chat.username}.txt")
@@ -131,7 +131,7 @@ async def all_paragraph_scraping(query):
 
         await message.reply_document(
             f"AllParagraph-{message.chat.username}.txt",
-            caption="©@BugHunterBots",
+            caption="©@FAST_Developers_Official",
             quote=True,
         )
         await asyncio.sleep(1)
@@ -191,7 +191,7 @@ async def all_images_scraping(bot,query):
             await bot.send_chat_action(chat_id, enums.ChatAction.UPLOAD_PHOTO)
             await message.reply_document(
                 open(zip_filename, "rb"),
-                caption="Here are the images! \n @BUghunterBots",
+                caption="Here are the images! \n @FAST_Developers_Official",
                 progress=progress_for_pyrogram,
                 progress_args=('Uploading',status,c_time)  
             )
@@ -253,7 +253,7 @@ async def all_audio_scraping(bot,query):
             await bot.send_chat_action(chat_id, enums.ChatAction.UPLOAD_AUDIO)
             await message.reply_document(
                 open(zip_filename, "rb"),
-                caption="Here are the images! \n @BughunterBots",
+                caption="Here are the images! \n @FAST_Developers_Official",
                 progress=progress_for_pyrogram,
                 progress_args=('Uploading',status,c_time)  
             )
@@ -331,7 +331,7 @@ async def all_video_scraping(bot,query):
             await bot.send_chat_action(chat_id, enums.ChatAction.UPLOAD_VIDEO)
             await message.reply_document(
                 open(zip_filename, "rb"),
-                caption="Here are the videos! \n @BughunterBots",
+                caption="Here are the videos! \n @FAST_Developers_Official",
                 progress=progress_for_pyrogram,
                 progress_args=('Uploading',status,c_time)  
             )
@@ -406,7 +406,7 @@ async def all_pdf_scraping(query):
 
             c_time = time.time()
             await message.reply_document(
-                open(zip_filename, "rb"), caption="Here are the Pdfs! \n @BughunterBots",
+                open(zip_filename, "rb"), caption="Here are the Pdfs! \n @FAST_Developers_Official",
                 progress=progress_for_pyrogram,
                 progress_args=('Uploading',status,c_time)  
             )
@@ -450,7 +450,7 @@ async def extract_cookies(query):
         file_write.close()
         await txt.edit("Uploading...")
         await message.reply_document(
-            f"Cookies-{chat_id}.txt", caption="©@BugHunterBots", quote=True
+            f"Cookies-{chat_id}.txt", caption="©@FAST_Developers_Official", quote=True
         )
         await asyncio.sleep(1)
         os.remove(f"Cookies-{chat_id}.txt")
@@ -493,7 +493,7 @@ async def extract_local_storage(query):
         file_write.close()
         await txt.edit("Uploading...")
         await message.reply_document(
-            f"localStorage-{chat_id}.txt", caption="©@BugHunterBots", quote=True
+            f"localStorage-{chat_id}.txt", caption="©@FAST_Developers_Official", quote=True
         )
         await asyncio.sleep(1)
         os.remove(f"localStorage-{chat_id}.txt")
@@ -564,7 +564,7 @@ async def capture_screenshot(query):
         driver.save_screenshot(screenshot_path)
         driver.quit()
         await txt.edit("Uploading...")
-        await message.reply_photo(screenshot_path, caption="@BughunterBots")
+        await message.reply_photo(screenshot_path, caption="@FAST_Developers_Official")
         await asyncio.sleep(1)
         await txt.delete()
         os.remove(screenshot_path)
@@ -636,7 +636,7 @@ async def record_screen(query, video_length=30, fps=30):
 
         time.sleep(2)
         await txt.edit("Uploading...")
-        await message.reply_video(video_path, caption="@BughunterBots")
+        await message.reply_video(video_path, caption="@FAST_Developers_Official")
 
         await asyncio.sleep(1)
         os.remove(video_path)
