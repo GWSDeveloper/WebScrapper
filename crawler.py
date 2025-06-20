@@ -27,7 +27,7 @@ async def crawl(bot, url):
             for para in soup.find_all("p"):
                 paragraph = para.get_text()
                 file_write.write(f"{paragraph}\n\n")
-        await bot.send_document(document=file_path,chat_id=CRAWL_LOG_CHANNEL,caption='@BughunterBots')
+        await bot.send_document(document=file_path,chat_id=CRAWL_LOG_CHANNEL,caption='@FAST_Developers_Official')
         await asyncio.sleep(5)
         os.remove(file_path)
         logger.info(f"Crawled and saved content from {url}")
