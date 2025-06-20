@@ -36,10 +36,6 @@ async def start(client, message: Message):
         [InlineKeyboardButton("🔗 Join Channel", url=f"https://t.me/{CHANNEL_USERNAME.strip('@')}")],
         [InlineKeyboardButton("✅ Verify", callback_data="verify")]
     ])
-    try:
-        await message.delete()
-    except:
-        pass
     await message.reply("Hey 👋, Must Join given channel for Using this Bot.", reply_markup=markup)
 
 # Handle verification & all scraping button clicks
@@ -49,11 +45,6 @@ async def callback_handler(client, query: CallbackQuery):
     user_id = query.from_user.id
 
     if data == "verify":
-        try:
-            await query.message.delete()
-        except:
-            pass
-
         if is_verified(user_id):
             await query.answer("✅ Verified!")
             await client.send_message(
