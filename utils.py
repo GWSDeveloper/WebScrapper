@@ -2,12 +2,12 @@
 
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message
 
-REPO = 'https://github.com/nuhmanpk/WebScrapper/'
+REPO = 'https://github.com/GWSDeveloper/'
 
 FINISHED_PROGRESS_STR = "▓"
 UN_FINISHED_PROGRESS_STR = "░"
 
-START_TEXT = "Hello , I am a web scrapper bot.\nSend me any link for scrapping.\n\nJoin @BugHunterBots"
+START_TEXT = "Hello , I am a web scrapper bot.\nSend me any link for scrapping.\n\nJoin @FAST_Developers_Official"
 
 START_BUTTON = InlineKeyboardMarkup(
     [
