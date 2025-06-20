@@ -1,6 +1,26 @@
 # /usr/bin/nuhmanpk/bughunter0 
 
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message
+from pyrogram import Client
+from pyrogram.errors import UserNotParticipant
+
+# Channel username from .env
+CHANNEL_USERNAME = "@FAST_Developers_Official"
+
+# ✅ Verification function
+def is_verified(user_id: int) -> bool:
+    from main import app  # ensure Client instance is imported
+
+    try:
+        member = app.get_chat_member(CHANNEL_USERNAME, user_id)
+        if member.status in ["member", "creator", "administrator"]:
+            return True
+        return False
+    except UserNotParticipant:
+        return False
+    except Exception as e:
+        print(f"[ERROR] Verification Failed: {e}")
+        return False
 
 REPO = 'https://github.com/GWSDeveloper/'
 
@@ -8,6 +28,7 @@ FINISHED_PROGRESS_STR = "▓"
 UN_FINISHED_PROGRESS_STR = "░"
 
 START_TEXT = "Hello , I am a web scrapper bot.\nSend me any link for scrapping.\n\nJoin @FAST_Developers_Official"
+
 
 START_BUTTON = InlineKeyboardMarkup(
     [
