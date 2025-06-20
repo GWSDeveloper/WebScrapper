@@ -32,7 +32,7 @@ Scraping Options:
 
 ## Run Bot in Google Colab for free
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/nuhmanpk/WebScrapper/blob/main/WebScrapper.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GWSDeveloper/WebScrapper/blob/main/WebScrapper.ipynb)
 
 ## Key Features:
 User-Friendly Menu-Driven Interface: Navigate easily through the bot's features using a simple and intuitive menu system.
