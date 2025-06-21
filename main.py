@@ -45,7 +45,7 @@ async def callback_handler(client, query: CallbackQuery):
     user_id = query.from_user.id
 
     if data == "verify":
-        if is_verified(user_id):
+        if await is_verified(client, user_id):
             await query.answer("✅ Verified!")
             await client.send_message(
                 user_id,
