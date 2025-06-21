@@ -8,11 +8,11 @@ from pyrogram.errors import UserNotParticipant
 CHANNEL_USERNAME = "@FAST_Developers_Official"
 
 # ✅ Verification function
-def is_verified(user_id: int) -> bool:
+async def is_verified(client,  user_id: int) -> bool:
     from main import app  # ensure Client instance is imported
 
     try:
-        member = app.get_chat_member(CHANNEL_USERNAME, user_id)
+        member = await app.get_chat_member(CHANNEL_USERNAME, user_id)
         if member.status in ["member", "creator", "administrator"]:
             return True
         return False
