@@ -108,5 +108,4 @@ async def scrape_handler(client, message: Message):
     )
 
 # Run the bot
-print("✅ Web Scraper Bot Running...")
-app.run()
+app.run(print("✅️ Web Scraper Bot Running...."))
